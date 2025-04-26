@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gavekort</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom right, #f0f8ff, #e6e6fa);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .gift {
+      font-size: 5rem;
+      cursor: pointer;
+      transition: transform 0.6s, opacity 0.6s;
+      transform-origin: center;
+    }
+    .gift.opened {
+      transform: scale(2) rotate(20deg);
+      opacity: 0;
+    }
+    .popup {
+      display: none;
+      position: absolute;
+      top: 20%;
+      text-align: center;
+    }
+    .popup img {
+      width: 250px;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      margin-top: 20px;
+    }
+    .hilsen {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      color: #555;
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #f2c94c;
+      animation: fall 3s linear infinite;
+      z-index: 1000;
+    }
+    @keyframes fall {
+      0% {transform: translateY(0) rotate(0deg);}
+      100% {transform: translateY(100vh) rotate(360deg);}
+    }
+  </style>
+</head>
+<body>
+
+<div class="gift" id="gift" onclick="openGift()">🎁</div>
+
+<div class="popup" id="popup">
+  <h2>Gratulerer med dagen! 🎉 Denne er på vei i posten ❤️ </h2>
+  <img src="a20ba4ec-abcd-48bc-8491-0dde89a6652d.jpg" alt="Din gave!">
+  <div class="hilsen">Hilsen Mats og Kristin </div>
+</div>
+
+<script>
+function openGift() {
+  const gift = document.getElementById('gift');
+  gift.classList.add('opened');
+
+  // Vent til animasjonen er ferdig (0.6 sekunder), så vis popup
+  setTimeout(() => {
+    gift.style.display = 'none';
+    document.getElementById('popup').style.display = 'block';
+    createConfetti();
+  }, 600);
+}
+
+function createConfetti() {
+  for (let i = 0; i < 100; i++) {
+    let confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    confetti.style.left = Math.random() * window.innerWidth + 'px';
+    confetti.style.backgroundColor = randomColor();
+    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    document.body.appendChild(confetti);
+
+    // Fjern konfetti etter 5 sekunder
+    setTimeout(() => {
+      confetti.remove();
+    }, 5000);
+  }
+}
+
+function randomColor() {
+  const colors = ['#f2c94c', '#eb5757', '#56ccf2', '#6fcf97', '#bb6bd9'];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+</script>
+
+</body>
+</html>
